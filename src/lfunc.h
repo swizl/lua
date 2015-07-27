@@ -32,7 +32,9 @@
 /*
 ** Upvalues for Lua closures
 */
-struct UpVal {
+class UpVal {
+//struct UpVal {
+public:
   TValue *v;  /* points to stack or to its own value */
   lu_mem refcount;  /* reference counter */
   union {

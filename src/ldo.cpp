@@ -81,8 +81,10 @@
 
 
 /* chain list of long jump buffers */
-struct lua_longjmp {
-  struct lua_longjmp *previous;
+class lua_longjmp {
+//struct lua_longjmp {
+public:
+  /*struct*/ lua_longjmp *previous;
   luai_jmpbuf b;
   volatile int status;  /* error code */
 };

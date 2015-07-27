@@ -69,7 +69,7 @@ clean:
 	$(RM) $(ALL_T) $(ALL_O)
 
 depend:
-	@$(CC) $(CFLAGS) -MM l*.c
+	@$(CC) $(CFLAGS) -MM l*.cpp
 
 echo:
 	@echo "PLAT= $(PLAT)"

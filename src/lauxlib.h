@@ -19,11 +19,12 @@
 /* extra error code for 'luaL_load' */
 #define LUA_ERRFILE     (LUA_ERRERR+1)
 
-
-typedef struct luaL_Reg {
+class luaL_Reg {
+//typedef struct luaL_Reg {
+public:
   const char *name;
   lua_CFunction func;
-} luaL_Reg;
+} ;//luaL_Reg;
 
 
 #define LUAL_NUMSIZES	(sizeof(lua_Integer)*16 + sizeof(lua_Number))
@@ -136,14 +137,15 @@ LUALIB_API void (luaL_requiref) (lua_State *L, const char *modname,
 ** Generic Buffer manipulation
 ** =======================================================
 */
-
-typedef struct luaL_Buffer {
+class luaL_Buffer {
+//typedef struct luaL_Buffer {
+public:
   char *b;  /* buffer address */
   size_t size;  /* buffer size */
   size_t n;  /* number of characters in buffer */
   lua_State *L;
   char initb[LUAL_BUFFERSIZE];  /* initial buffer */
-} luaL_Buffer;
+} ;//luaL_Buffer;
 
 
 #define luaL_addchar(B,c) \
@@ -181,11 +183,12 @@ LUALIB_API char *(luaL_buffinitsize) (lua_State *L, luaL_Buffer *B, size_t sz);
 
 #define LUA_FILEHANDLE          "FILE*"
 
-
-typedef struct luaL_Stream {
+class luaL_Stream {
+//typedef struct luaL_Stream {
+public:
   FILE *f;  /* stream (NULL for incompletely created streams) */
   lua_CFunction closef;  /* to close stream (NULL for closed streams) */
-} luaL_Stream;
+} ;//luaL_Stream;
 
 /* }====================================================== */
 

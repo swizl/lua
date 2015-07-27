@@ -15,16 +15,18 @@
 
 #define EOZ	(-1)			/* end of stream */
 
-typedef struct Zio ZIO;
+//typedef struct Zio ZIO;
+typedef class Zio ZIO;
 
 #define zgetc(z)  (((z)->n--)>0 ?  cast_uchar(*(z)->p++) : luaZ_fill(z))
 
-
-typedef struct Mbuffer {
+class Mbuffer {
+//typedef struct Mbuffer {
+public:
   char *buffer;
   size_t n;
   size_t buffsize;
-} Mbuffer;
+} ;//Mbuffer;
 
 #define luaZ_initbuffer(L, buff) ((buff)->buffer = NULL, (buff)->buffsize = 0)
 
@@ -52,8 +54,9 @@ LUAI_FUNC size_t luaZ_read (ZIO* z, void *b, size_t n);	/* read next n bytes */
 
 
 /* --------- Private Part ------------------ */
-
-struct Zio {
+class Zio {
+//struct Zio {
+public:
   size_t n;			/* bytes still unread */
   const char *p;		/* current position in buffer */
   lua_Reader reader;		/* reader function */

@@ -46,31 +46,35 @@ typedef union {
   TString *ts;
 } SemInfo;  /* semantics information */
 
-
-typedef struct Token {
+class Token {
+//typedef struct Token {
+public:
   int token;
   SemInfo seminfo;
-} Token;
+} ;//Token;
 
-
+class FuncState;
+class Dyndata;
 /* state of the lexer plus state of the parser when shared by all
    functions */
-typedef struct LexState {
+class LexState {
+//typedef struct LexState {
+public:
   int current;  /* current character (charint) */
   int linenumber;  /* input line counter */
   int lastline;  /* line of last token 'consumed' */
   Token t;  /* current token */
   Token lookahead;  /* look ahead token */
-  struct FuncState *fs;  /* current function (parser) */
-  struct lua_State *L;
+  /*struct*/ FuncState *fs;  /* current function (parser) */
+  /*struct*/ lua_State *L;
   ZIO *z;  /* input stream */
   Mbuffer *buff;  /* buffer for tokens */
   Table *h;  /* to avoid collection/reuse strings */
-  struct Dyndata *dyd;  /* dynamic structures used by the parser */
+  /*struct*/ Dyndata *dyd;  /* dynamic structures used by the parser */
   TString *source;  /* current source name */
   TString *envn;  /* environment variable name */
   char decpoint;  /* locale decimal point */
-} LexState;
+} ;//LexState;
 
 
 LUAI_FUNC void luaX_init (lua_State *L);

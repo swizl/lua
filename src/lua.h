@@ -53,7 +53,8 @@
 #define LUA_ERRERR	6
 
 
-typedef struct lua_State lua_State;
+//typedef struct lua_State lua_State;
+class lua_State;
 
 
 /*
@@ -414,7 +415,8 @@ LUA_API void      (lua_setallocf) (lua_State *L, lua_Alloc f, void *ud);
 #define LUA_MASKLINE	(1 << LUA_HOOKLINE)
 #define LUA_MASKCOUNT	(1 << LUA_HOOKCOUNT)
 
-typedef struct lua_Debug lua_Debug;  /* activation record */
+//typedef struct lua_Debug lua_Debug;  /* activation record */
+class lua_Debug;
 
 
 /* Functions to be called by the debugger in specific events */
@@ -437,8 +439,9 @@ LUA_API lua_Hook (lua_gethook) (lua_State *L);
 LUA_API int (lua_gethookmask) (lua_State *L);
 LUA_API int (lua_gethookcount) (lua_State *L);
 
-
-struct lua_Debug {
+class lua_Debug {
+//struct lua_Debug {
+public:
   int event;
   const char *name;	/* (n) */
   const char *namewhat;	/* (n) 'global', 'local', 'field', 'method' */

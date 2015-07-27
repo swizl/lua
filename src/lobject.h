@@ -69,7 +69,8 @@
 /*
 ** Common type for all collectable objects
 */
-typedef struct GCObject GCObject;
+//typedef struct GCObject GCObject;
+class GCObject;
 
 
 /*
@@ -82,7 +83,9 @@ typedef struct GCObject GCObject;
 /*
 ** Common type has only the common header
 */
-struct GCObject {
+class GCObject {
+//struct GCObject {
+public:
   CommonHeader;
 };
 
@@ -103,7 +106,8 @@ typedef union Value Value;
 
 #define TValuefields	Value value_; int tt_
 
-typedef struct lua_TValue TValue;
+//typedef struct lua_TValue TValue;
+typedef class lua_TValue TValue;
 
 
 /* macro defining a nil value */
@@ -289,8 +293,9 @@ union Value {
   lua_Number n;    /* float numbers */
 };
 
-
-struct lua_TValue {
+class lua_TValue {
+//struct lua_TValue {
+public:
   TValuefields;
 };
 
@@ -298,22 +303,24 @@ struct lua_TValue {
 typedef TValue *StkId;  /* index to stack elements */
 
 
-
+class Table;
 
 /*
 ** Header for string value; string bytes follow the end of this structure
 ** (aligned according to 'UTString'; see next).
 */
-typedef struct TString {
+class TString {
+//typedef struct TString {
+public:
   CommonHeader;
   lu_byte extra;  /* reserved words for short strings; "has hash" for longs */
   lu_byte shrlen;  /* length for short strings */
   unsigned int hash;
   union {
     size_t lnglen;  /* length for long strings */
-    struct TString *hnext;  /* linked list for hash table */
+    /*struct*/ TString *hnext;  /* linked list for hash table */
   } u;
-} TString;
+} ;//TString;
 
 
 /*
@@ -347,13 +354,15 @@ typedef union UTString {
 ** Header for userdata; memory area follows the end of this structure
 ** (aligned according to 'UUdata'; see next).
 */
-typedef struct Udata {
+class Udata {
+//typedef struct Udata {
+public:
   CommonHeader;
   lu_byte ttuv_;  /* user value's tag */
-  struct Table *metatable;
+  /*struct*/ Table *metatable;
   size_t len;  /* number of bytes */
   union Value user_;  /* user value */
-} Udata;
+} ;//Udata;
 
 
 /*
@@ -387,28 +396,34 @@ typedef union UUdata {
 /*
 ** Description of an upvalue for function prototypes
 */
-typedef struct Upvaldesc {
+class Upvaldesc {
+//typedef struct Upvaldesc {
+public:
   TString *name;  /* upvalue name (for debug information) */
   lu_byte instack;  /* whether it is in stack (register) */
   lu_byte idx;  /* index of upvalue (in stack or in outer function's list) */
-} Upvaldesc;
+} ;//Upvaldesc;
 
 
 /*
 ** Description of a local variable for function prototypes
 ** (used for debug information)
 */
-typedef struct LocVar {
+class LocVar {
+//typedef struct LocVar {
+public:
   TString *varname;
   int startpc;  /* first point where variable is active */
   int endpc;    /* first point where variable is dead */
-} LocVar;
+} ;//LocVar;
 
-
+class LClosure;
 /*
 ** Function Prototypes
 */
-typedef struct Proto {
+class Proto {
+//typedef struct Proto {
+public:
   CommonHeader;
   lu_byte numparams;  /* number of fixed parameters */
   lu_byte is_vararg;
@@ -423,21 +438,22 @@ typedef struct Proto {
   int lastlinedefined;
   TValue *k;  /* constants used by the function */
   Instruction *code;  /* opcodes */
-  struct Proto **p;  /* functions defined inside the function */
+  /*struct*/ Proto **p;  /* functions defined inside the function */
   int *lineinfo;  /* map from opcodes to source lines (debug information) */
   LocVar *locvars;  /* information about local variables (debug information) */
   Upvaldesc *upvalues;  /* upvalue information */
-  struct LClosure *cache;  /* last-created closure with this prototype */
+  /*struct*/ LClosure *cache;  /* last-created closure with this prototype */
   TString  *source;  /* used for debug information */
   GCObject *gclist;
-} Proto;
+} ;//Proto;
 
 
 
 /*
 ** Lua Upvalues
 */
-typedef struct UpVal UpVal;
+//typedef struct UpVal UpVal;
+class UpVal;
 
 
 /*
@@ -446,19 +462,21 @@ typedef struct UpVal UpVal;
 
 #define ClosureHeader \
 	CommonHeader; lu_byte nupvalues; GCObject *gclist
-
-typedef struct CClosure {
+class CClosure {
+//typedef struct CClosure {
+public:
   ClosureHeader;
   lua_CFunction f;
   TValue upvalue[1];  /* list of upvalues */
-} CClosure;
+} ;//CClosure;
 
-
-typedef struct LClosure {
+class LClosure {
+//typedef struct LClosure {
+public:
   ClosureHeader;
-  struct Proto *p;
+  /*struct*/ Proto *p;
   UpVal *upvals[1];  /* list of upvalues */
-} LClosure;
+} ;//LClosure;
 
 
 typedef union Closure {
@@ -491,14 +509,16 @@ typedef union TKey {
 	  k_->nk.value_ = io_->value_; k_->nk.tt_ = io_->tt_; \
 	  (void)L; checkliveness(G(L),io_); }
 
-
-typedef struct Node {
+class Node {
+//typedef struct Node {
+public:
   TValue i_val;
   TKey i_key;
-} Node;
+} ;//Node;
 
-
-typedef struct Table {
+class Table {
+//typedef struct Table {
+public:
   CommonHeader;
   lu_byte flags;  /* 1<<p means tagmethod(p) is not present */
   lu_byte lsizenode;  /* log2 of size of 'node' array */
@@ -506,9 +526,9 @@ typedef struct Table {
   TValue *array;  /* array part */
   Node *node;
   Node *lastfree;  /* any free position is before this position */
-  struct Table *metatable;
+  /*struct*/ Table *metatable;
   GCObject *gclist;
-} Table;
+} ;//Table;
 
 
 
