@@ -409,9 +409,9 @@ static const char *searchpath (lua_State *L, const char *name,
       return filename;  /* return that file name */
     lua_pushfstring(L, "\n\tno file '%s'", filename);
     lua_remove(L, -2);  /* remove file name */
-    luaL_addvalue(&msg);  /* concatenate error msg. entry */
+    msg.luaL_addvalue();  /* concatenate error msg. entry */
   }
-  luaL_pushresult(&msg);  /* create error message */
+  msg.luaL_pushresult();  /* create error message */
   return NULL;  /* not found */
 }
 
@@ -538,7 +538,7 @@ static void findloader (lua_State *L, const char *name) {
   for (i = 1; ; i++) {
     if (lua_rawgeti(L, 3, i) == LUA_TNIL) {  /* no more searchers? */
       lua_pop(L, 1);  /* remove nil */
-      luaL_pushresult(&msg);  /* create error message */
+      msg.luaL_pushresult();  /* create error message */
       luaL_error(L, "module '%s' not found:%s", name, lua_tostring(L, -1));
     }
     lua_pushstring(L, name);
@@ -547,7 +547,7 @@ static void findloader (lua_State *L, const char *name) {
       return;  /* module loader found */
     else if (lua_isstring(L, -2)) {  /* searcher returned error message? */
       lua_pop(L, 1);  /* remove extra return */
-      luaL_addvalue(&msg);  /* concatenate error message */
+      msg.luaL_addvalue();  /* concatenate error message */
     }
     else
       lua_pop(L, 2);  /* remove both returns */

@@ -135,8 +135,7 @@ static const char *findvararg (CallInfo *ci, int n, StkId *pos) {
 }
 
 
-static const char *findlocal (lua_State *L, CallInfo *ci, int n,
-                              StkId *pos) {
+static const char *findlocal (lua_State *L, CallInfo *ci, int n, StkId *pos) {
   const char *name = NULL;
   StkId base;
   if (isLua(ci)) {

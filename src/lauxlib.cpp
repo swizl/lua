@@ -439,68 +439,89 @@ LUALIB_API lua_Integer luaL_optinteger (lua_State *L, int arg,
 ** check whether buffer is using a userdata on the stack as a temporary
 ** buffer
 */
-#define buffonstack(B)	((B)->b != (B)->initb)
-
+//#define buffonstack(B)	((B)->b != (B)->initb)
+bool luaL_Buffer::buffonstack ()
+{
+    return b != initb;
+}
 
 /*
 ** returns a pointer to a free area with at least 'sz' bytes
 */
-LUALIB_API char *luaL_prepbuffsize (luaL_Buffer *B, size_t sz) {
-  lua_State *L = B->L;
-  if (B->size - B->n < sz) {  /* not enough space? */
+/*LUALIB_API*/ char * luaL_Buffer::luaL_prepbuffsize (/*luaL_Buffer *B,*/ size_t sz) {
+  //lua_State *L = B->L;
+  if (size - n < sz) {  /* not enough space? */
     char *newbuff;
-    size_t newsize = B->size * 2;  /* double buffer size */
-    if (newsize - B->n < sz)  /* not big enough? */
-      newsize = B->n + sz;
-    if (newsize < B->n || newsize - B->n < sz)
+    size_t newsize = size * 2;  /* double buffer size */
+    if (newsize - n < sz)  /* not big enough? */
+      newsize = n + sz;
+    if (newsize < n || newsize - n < sz)
       luaL_error(L, "buffer too large");
     /* create larger buffer */
     newbuff = (char *)lua_newuserdata(L, newsize * sizeof(char));
     /* move content to new buffer */
-    memcpy(newbuff, B->b, B->n * sizeof(char));
-    if (buffonstack(B))
+    memcpy(newbuff, b, n * sizeof(char));
+    if (buffonstack())
       lua_remove(L, -2);  /* remove old buffer */
-    B->b = newbuff;
-    B->size = newsize;
+    b = newbuff;
+    size = newsize;
   }
-  return &B->b[B->n];
+  return &b[n];
 }
 
+void luaL_Buffer::luaL_addsize (size_t s)
+{
+    n += s;
+}
 
-LUALIB_API void luaL_addlstring (luaL_Buffer *B, const char *s, size_t l) {
-  char *b = luaL_prepbuffsize(B, l);
+char *luaL_Buffer::luaL_prepbuffer ()
+{
+    luaL_prepbuffsize(LUAL_BUFFERSIZE);
+}
+
+void luaL_Buffer::luaL_addchar(char c)
+{
+  //(void)(n < size || luaL_prepbuffsize(1)), (b[n++] = (c))
+
+  //((void)(n < size || luaL_prepbuffsize(1)), (b[n++] = (c)))
+  if ( n >= size ) luaL_prepbuffsize(1);
+  b[n++] = c;
+}
+
+/*LUALIB_API*/ void luaL_Buffer::luaL_addlstring (/*luaL_Buffer *B,*/ const char *s, size_t l) {
+  char *b = luaL_prepbuffsize(l);
   memcpy(b, s, l * sizeof(char));
-  luaL_addsize(B, l);
+  luaL_addsize(l);
 }
 
 
-LUALIB_API void luaL_addstring (luaL_Buffer *B, const char *s) {
-  luaL_addlstring(B, s, strlen(s));
+/*LUALIB_API*/ void luaL_Buffer::luaL_addstring (/*luaL_Buffer *B,*/ const char *s) {
+  luaL_addlstring(s, strlen(s));
 }
 
 
-LUALIB_API void luaL_pushresult (luaL_Buffer *B) {
-  lua_State *L = B->L;
-  lua_pushlstring(L, B->b, B->n);
-  if (buffonstack(B))
+/*LUALIB_API*/ void luaL_Buffer::luaL_pushresult (/*luaL_Buffer *B*/) {
+  //lua_State *L = B->L;
+  lua_pushlstring(L, b, n);
+  if (buffonstack())
     lua_remove(L, -2);  /* remove old buffer */
 }
 
 
-LUALIB_API void luaL_pushresultsize (luaL_Buffer *B, size_t sz) {
-  luaL_addsize(B, sz);
-  luaL_pushresult(B);
+/*LUALIB_API*/ void luaL_Buffer::luaL_pushresultsize (/*luaL_Buffer *B,*/ size_t sz) {
+  luaL_addsize(sz);
+  luaL_pushresult();
 }
 
 
-LUALIB_API void luaL_addvalue (luaL_Buffer *B) {
-  lua_State *L = B->L;
+/*LUALIB_API*/ void luaL_Buffer::luaL_addvalue (/*luaL_Buffer *B*/) {
+  //lua_State *L = B->L;
   size_t l;
   const char *s = lua_tolstring(L, -1, &l);
-  if (buffonstack(B))
+  if (buffonstack())
     lua_insert(L, -2);  /* put value below buffer */
-  luaL_addlstring(B, s, l);
-  lua_remove(L, (buffonstack(B)) ? -2 : -1);  /* remove value */
+  luaL_addlstring(s, l);
+  lua_remove(L, (buffonstack()) ? -2 : -1);  /* remove value */
 }
 
 
@@ -514,7 +535,7 @@ LUALIB_API void luaL_buffinit (lua_State *L, luaL_Buffer *B) {
 
 LUALIB_API char *luaL_buffinitsize (lua_State *L, luaL_Buffer *B, size_t sz) {
   luaL_buffinit(L, B);
-  return luaL_prepbuffsize(B, sz);
+  return B->luaL_prepbuffsize(sz);
 }
 
 /* }====================================================== */
@@ -924,12 +945,12 @@ LUALIB_API const char *luaL_gsub (lua_State *L, const char *s, const char *p,
   luaL_Buffer b;
   luaL_buffinit(L, &b);
   while ((wild = strstr(s, p)) != NULL) {
-    luaL_addlstring(&b, s, wild - s);  /* push prefix */
-    luaL_addstring(&b, r);  /* push replacement in place of pattern */
+    b.luaL_addlstring(s, wild - s);  /* push prefix */
+    b.luaL_addstring(r);  /* push replacement in place of pattern */
     s = wild + l;  /* continue after 'p' */
   }
-  luaL_addstring(&b, s);  /* push last suffix */
-  luaL_pushresult(&b);
+  b.luaL_addstring(s);  /* push last suffix */
+  b.luaL_pushresult();
   return lua_tostring(L, -1);
 }
 

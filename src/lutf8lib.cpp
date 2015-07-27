@@ -145,9 +145,9 @@ static int utfchar (lua_State *L) {
     luaL_buffinit(L, &b);
     for (i = 1; i <= n; i++) {
       pushutfchar(L, i);
-      luaL_addvalue(&b);
+      b.luaL_addvalue();
     }
-    luaL_pushresult(&b);
+    b.luaL_pushresult();
   }
   return 1;
 }

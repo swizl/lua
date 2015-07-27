@@ -160,7 +160,7 @@ static void addfield (lua_State *L, luaL_Buffer *b, TabA *ta, lua_Integer i) {
   if (!lua_isstring(L, -1))
     luaL_error(L, "invalid value (%s) at index %d in table for 'concat'",
                   luaL_typename(L, -1), i);
-  luaL_addvalue(b);
+  b->luaL_addvalue();
 }
 
 
@@ -176,11 +176,11 @@ static int tconcat (lua_State *L) {
   luaL_buffinit(L, &b);
   for (; i < last; i++) {
     addfield(L, &b, &ta, i);
-    luaL_addlstring(&b, sep, lsep);
+    b.luaL_addlstring(sep, lsep);
   }
   if (i == last)  /* add last value (if interval was not empty) */
     addfield(L, &b, &ta, i);
-  luaL_pushresult(&b);
+  b.luaL_pushresult();
   return 1;
 }
 

@@ -462,17 +462,17 @@ static int read_line (lua_State *L, FILE *f, int chop) {
   int c = '\0';
   luaL_buffinit(L, &b);
   while (c != EOF && c != '\n') {  /* repeat until end of line */
-    char *buff = luaL_prepbuffer(&b);  /* pre-allocate buffer */
+    char *buff = b.luaL_prepbuffer();  /* pre-allocate buffer */
     int i = 0;
     l_lockfile(f);  /* no memory errors can happen inside the lock */
     while (i < LUAL_BUFFERSIZE && (c = l_getc(f)) != EOF && c != '\n')
       buff[i++] = c;
     l_unlockfile(f);
-    luaL_addsize(&b, i);
+    b.luaL_addsize(i);
   }
   if (!chop && c == '\n')  /* want a newline and have one? */
-    luaL_addchar(&b, c);  /* add ending newline to result */
-  luaL_pushresult(&b);  /* close buffer */
+    b.luaL_addchar(c);  /* add ending newline to result */
+  b.luaL_pushresult();  /* close buffer */
   /* return ok if read something (either a newline or something else) */
   return (c == '\n' || lua_rawlen(L, -1) > 0);
 }
@@ -483,11 +483,11 @@ static void read_all (lua_State *L, FILE *f) {
   luaL_Buffer b;
   luaL_buffinit(L, &b);
   do {  /* read file in chunks of LUAL_BUFFERSIZE bytes */
-    char *p = luaL_prepbuffsize(&b, LUAL_BUFFERSIZE);
+    char *p = b.luaL_prepbuffsize(LUAL_BUFFERSIZE);
     nr = fread(p, sizeof(char), LUAL_BUFFERSIZE, f);
-    luaL_addsize(&b, nr);
+    b.luaL_addsize(nr);
   } while (nr == LUAL_BUFFERSIZE);
-  luaL_pushresult(&b);  /* close buffer */
+  b.luaL_pushresult();  /* close buffer */
 }
 
 
@@ -496,10 +496,10 @@ static int read_chars (lua_State *L, FILE *f, size_t n) {
   char *p;
   luaL_Buffer b;
   luaL_buffinit(L, &b);
-  p = luaL_prepbuffsize(&b, n);  /* prepare buffer to read whole block */
+  p = b.luaL_prepbuffsize(n);  /* prepare buffer to read whole block */
   nr = fread(p, sizeof(char), n, f);  /* try to read 'n' chars */
-  luaL_addsize(&b, nr);
-  luaL_pushresult(&b);  /* close buffer */
+  b.luaL_addsize(nr);
+  b.luaL_pushresult();  /* close buffer */
   return (nr > 0);  /* true iff read something */
 }
 
