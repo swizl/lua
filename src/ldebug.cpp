@@ -528,8 +528,7 @@ static int isinstack (CallInfo *ci, const TValue *o) {
 ** with instructions OP_GETTABUP/OP_SETTABUP, which operate directly on
 ** upvalues.)
 */
-static const char *getupvalname (CallInfo *ci, const TValue *o,
-                                 const char **name) {
+static const char *getupvalname (CallInfo *ci, const TValue *o, const char **name) {
   LClosure *c = ci_func(ci);
   int i;
   for (i = 0; i < c->nupvalues; i++) {

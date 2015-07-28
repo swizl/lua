@@ -23,10 +23,12 @@
 /*
 ** Structure with table-access functions
 */
-typedef struct {
+class TabA {
+//typedef struct {
+public:
   int (*geti) (lua_State *L, int idx, lua_Integer n);
   void (*seti) (lua_State *L, int idx, lua_Integer n);
-} TabA;
+} ;//TabA;
 
 
 /*
@@ -217,7 +219,7 @@ static int unpack (lua_State *L) {
     return luaL_error(L, "too many results to unpack");
   do {  /* must have at least one element */
     (*ta.geti)(L, 1, i);  /* push arg[i..e] */
-  } while (i++ < e); 
+  } while (i++ < e);
 
   return (int)n;
 }
