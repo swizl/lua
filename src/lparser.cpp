@@ -1159,7 +1159,7 @@ public:
   expdesc e;
   check_condition(vkisvar(lh->v.k), "syntax error");
   if (testnext(',')) {  /* assignment -> ',' suffixedexp assignment */
-    struct LHS_assign nv;
+    /*struct*/ LHS_assign nv;
     nv.prev = lh;
     suffixedexp(&nv.v);
     if (nv.v.k != VINDEXED)
@@ -1502,7 +1502,7 @@ static void checkrepeated (FuncState *fs, Labellist *ll, TString *label) {
 /*static*/ void LexState::exprstat (/*LexState *ls*/) {
   /* stat -> func | assignment */
   //FuncState *fs = fs;
-  struct LHS_assign v;
+  /*struct*/ LHS_assign v;
   suffixedexp(&v.v);
   if (t.token == '=' || t.token == ',') { /* stat -> assignment ? */
     v.prev = NULL;

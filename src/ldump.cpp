@@ -18,14 +18,15 @@
 #include "lstate.h"
 #include "lundump.h"
 
-
-typedef struct {
+class DumpState {
+//typedef struct {
+public:
   lua_State *L;
   lua_Writer writer;
   void *data;
   int strip;
   int status;
-} DumpState;
+} ;//DumpState;
 
 
 /*

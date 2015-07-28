@@ -51,19 +51,23 @@
 /*
 ** thread state + extra space
 */
-typedef struct LX {
+class LX {
+//typedef struct LX {
+public:
   lu_byte extra_[LUA_EXTRASPACE];
   lua_State l;
-} LX;
+} ;//LX;
 
 
 /*
 ** Main thread combines a thread state and the global state
 */
-typedef struct LG {
+class LG {
+//typedef struct LG {
+public:
   LX l;
   global_State g;
-} LG;
+} ;//LG;
 
 
 

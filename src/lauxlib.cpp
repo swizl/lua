@@ -590,12 +590,13 @@ LUALIB_API void luaL_unref (lua_State *L, int t, int ref) {
 ** Load functions
 ** =======================================================
 */
-
-typedef struct LoadF {
+class LoadF {
+//typedef struct LoadF {
+public:
   int n;  /* number of pre-read characters */
   FILE *f;  /* file being read */
   char buff[BUFSIZ];  /* area for reading file */
-} LoadF;
+} ;//LoadF;
 
 
 static const char *getF (lua_State *L, void *ud, size_t *size) {
@@ -694,11 +695,12 @@ LUALIB_API int luaL_loadfilex (lua_State *L, const char *filename,
   return status;
 }
 
-
-typedef struct LoadS {
+class LoadS {
+//typedef struct LoadS {
+public:
   const char *s;
   size_t size;
-} LoadS;
+} ;//LoadS;
 
 
 static const char *getS (lua_State *L, void *ud, size_t *size) {

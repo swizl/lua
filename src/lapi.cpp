@@ -908,14 +908,16 @@ LUA_API void lua_callk (lua_State *L, int nargs, int nresults,
 /*
 ** Execute a protected call.
 */
-struct CallS {  /* data to 'f_call' */
+class CallS {
+//struct CallS {  /* data to 'f_call' */
+public:
   StkId func;
   int nresults;
 };
 
 
 static void f_call (lua_State *L, void *ud) {
-  struct CallS *c = cast(struct CallS *, ud);
+  /*struct*/ CallS *c = cast(/*struct*/ CallS *, ud);
   luaD_call(L, c->func, c->nresults, 0);
 }
 
@@ -923,7 +925,7 @@ static void f_call (lua_State *L, void *ud) {
 
 LUA_API int lua_pcallk (lua_State *L, int nargs, int nresults, int errfunc,
                         lua_KContext ctx, lua_KFunction k) {
-  struct CallS c;
+  /*struct*/ CallS c;
   int status;
   ptrdiff_t func;
   lua_lock(L);

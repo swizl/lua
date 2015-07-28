@@ -206,8 +206,9 @@ static int str_dump (lua_State *L) {
 #define CAP_UNFINISHED	(-1)
 #define CAP_POSITION	(-2)
 
-
-typedef struct MatchState {
+class MatchState {
+//typedef struct MatchState {
+public:
   int matchdepth;  /* control for recursive depth (to avoid C stack overflow) */
   const char *src_init;  /* init of source string */
   const char *src_end;  /* end ('\0') of source string */
@@ -218,7 +219,7 @@ typedef struct MatchState {
     const char *init;
     ptrdiff_t len;
   } capture[LUA_MAXCAPTURES];
-} MatchState;
+} ;//MatchState;
 
 
 /* recursive function */
@@ -1061,12 +1062,14 @@ static const union {
 
 
 /* dummy structure to get native alignment requirements */
-struct cD {
+class cD {
+//struct cD {
+public:
   char c;
   union { double d; void *p; lua_Integer i; lua_Number n; } u;
 };
 
-#define MAXALIGN	(offsetof(struct cD, u))
+#define MAXALIGN	(offsetof(/*struct*/ cD, u))
 
 
 /*
@@ -1083,11 +1086,13 @@ typedef union Ftypes {
 /*
 ** information to pack/unpack stuff
 */
-typedef struct Header {
+class Header {
+//typedef struct Header {
+public:
   lua_State *L;
   int islittle;
   int maxalign;
-} Header;
+} ;//Header;
 
 
 /*
@@ -1194,7 +1199,7 @@ static KOption getoption (Header *h, const char **fmt, int *size) {
 ** 'psize' is filled with option's size, 'notoalign' with its
 ** alignment requirements.
 ** Local variable 'size' gets the size to be aligned. (Kpadal option
-** always gets its full alignment, other options are limited by 
+** always gets its full alignment, other options are limited by
 ** the maximum alignment ('maxalign'). Kchar option needs no alignment
 ** despite its size.
 */

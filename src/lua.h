@@ -417,7 +417,7 @@ LUA_API void      (lua_setallocf) (lua_State *L, lua_Alloc f, void *ud);
 
 //typedef struct lua_Debug lua_Debug;  /* activation record */
 class lua_Debug;
-
+class CallInfo;
 
 /* Functions to be called by the debugger in specific events */
 typedef void (*lua_Hook) (lua_State *L, lua_Debug *ar);
@@ -456,7 +456,7 @@ public:
   char istailcall;	/* (t) */
   char short_src[LUA_IDSIZE]; /* (S) */
   /* private part */
-  struct CallInfo *i_ci;  /* active function */
+  /*struct*/ CallInfo *i_ci;  /* active function */
 };
 
 /* }====================================================================== */

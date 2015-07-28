@@ -365,12 +365,14 @@ static int io_lines (lua_State *L) {
 #define MAXRN		200
 
 /* auxiliary structure used by 'read_number' */
-typedef struct {
+class RN {
+//typedef struct {
+public:
   FILE *f;  /* file being read */
   int c;  /* current character (look ahead) */
   int n;  /* number of elements in buffer 'buff' */
   char buff[MAXRN + 1];  /* +1 for ending '\0' */
-} RN;
+} ;//RN;
 
 
 /*
