@@ -17,21 +17,21 @@
 */
 
 typedef enum {
-  VVOID,	/* no value */
-  VNIL,
-  VTRUE,
-  VFALSE,
-  VK,		/* info = index of constant in 'k' */
-  VKFLT,	/* nval = numerical float value */
-  VKINT,	/* nval = numerical integer value */
-  VNONRELOC,	/* info = result register */
-  VLOCAL,	/* info = local register */
-  VUPVAL,       /* info = index of upvalue in 'upvalues' */
-  VINDEXED,	/* t = table register/upvalue; idx = index R/K */
-  VJMP,		/* info = instruction pc */
-  VRELOCABLE,	/* info = instruction pc */
-  VCALL,	/* info = instruction pc */
-  VVARARG	/* info = instruction pc */
+	VVOID,	/* no value */
+	VNIL,
+	VTRUE,
+	VFALSE,
+	VK,		/* info = index of constant in 'k' */
+	VKFLT,	/* nval = numerical float value */
+	VKINT,	/* nval = numerical integer value */
+	VNONRELOC,	/* info = result register */
+	VLOCAL,	/* info = local register */
+	VUPVAL,       /* info = index of upvalue in 'upvalues' */
+	VINDEXED,	/* t = table register/upvalue; idx = index R/K */
+	VJMP,		/* info = instruction pc */
+	VRELOCABLE,	/* info = instruction pc */
+	VCALL,	/* info = instruction pc */
+	VVARARG	/* info = instruction pc */
 } expkind;
 
 
@@ -40,19 +40,19 @@ typedef enum {
 class expdesc {
 //typedef struct expdesc {
 public:
-  expkind k;
-  union {
-    struct {  /* for indexed variables (VINDEXED) */
-      short idx;  /* index (R/K) */
-      lu_byte t;  /* table (register or upvalue) */
-      lu_byte vt;  /* whether 't' is register (VLOCAL) or upvalue (VUPVAL) */
-    } ind;
-    int info;  /* for generic use */
-    lua_Number nval;  /* for VKFLT */
-    lua_Integer ival;    /* for VKINT */
-  } u;
-  int t;  /* patch list of 'exit when true' */
-  int f;  /* patch list of 'exit when false' */
+	expkind k;
+	union {
+		struct {  /* for indexed variables (VINDEXED) */
+			short idx;  /* index (R/K) */
+			lu_byte t;  /* table (register or upvalue) */
+			lu_byte vt;  /* whether 't' is register (VLOCAL) or upvalue (VUPVAL) */
+		} ind;
+		int info;  /* for generic use */
+		lua_Number nval;  /* for VKFLT */
+		lua_Integer ival;    /* for VKINT */
+	} u;
+	int t;  /* patch list of 'exit when true' */
+	int f;  /* patch list of 'exit when false' */
 } ;//expdesc;
 
 
@@ -60,7 +60,7 @@ public:
 class Vardesc {
 //typedef struct Vardesc {
 public:
-  short idx;  /* variable index in stack */
+	short idx;  /* variable index in stack */
 } ;//Vardesc;
 
 
@@ -68,10 +68,10 @@ public:
 class Labeldesc {
 //typedef struct Labeldesc {
 public:
-  TString *name;  /* label identifier */
-  int pc;  /* position in code */
-  int line;  /* line where it appeared */
-  lu_byte nactvar;  /* local level where it appears in current block */
+	TString *name;  /* label identifier */
+	int pc;  /* position in code */
+	int line;  /* line where it appeared */
+	lu_byte nactvar;  /* local level where it appears in current block */
 } ;//Labeldesc;
 
 
@@ -79,9 +79,9 @@ public:
 class Labellist {
 //typedef struct Labellist {
 public:
-  Labeldesc *arr;  /* array */
-  int n;  /* number of entries in use */
-  int size;  /* array size */
+	Labeldesc *arr;  /* array */
+	int n;  /* number of entries in use */
+	int size;  /* array size */
 } ;//Labellist;
 
 
@@ -89,13 +89,13 @@ public:
 class Dyndata {
 //typedef struct Dyndata {
 public:
-  struct {  /* list of active local variables */
-    Vardesc *arr;
-    int n;
-    int size;
-  } actvar;
-  Labellist gt;  /* list of pending gotos */
-  Labellist label;   /* list of active labels */
+	struct {  /* list of active local variables */
+		Vardesc *arr;
+		int n;
+		int size;
+	} actvar;
+	Labellist gt;  /* list of pending gotos */
+	Labellist label;   /* list of active labels */
 } ;//Dyndata;
 
 
@@ -108,20 +108,20 @@ class LexState;
 class FuncState {
 //typedef struct FuncState {
 public:
-  Proto *f;  /* current function header */
-  /*struct*/ FuncState *prev;  /* enclosing function */
-  /*struct*/ LexState *ls;  /* lexical state */
-  /*struct*/ BlockCnt *bl;  /* chain of current blocks */
-  int pc;  /* next position to code (equivalent to 'ncode') */
-  int lasttarget;   /* 'label' of last 'jump label' */
-  int jpc;  /* list of pending jumps to 'pc' */
-  int nk;  /* number of elements in 'k' */
-  int np;  /* number of elements in 'p' */
-  int firstlocal;  /* index of first local var (in Dyndata array) */
-  short nlocvars;  /* number of elements in 'f->locvars' */
-  lu_byte nactvar;  /* number of active local variables */
-  lu_byte nups;  /* number of upvalues */
-  lu_byte free_reg;  /* first free register */
+	Proto *f;  /* current function header */
+	/*struct*/ FuncState *prev;  /* enclosing function */
+	/*struct*/ LexState *ls;  /* lexical state */
+	/*struct*/ BlockCnt *bl;  /* chain of current blocks */
+	int pc;  /* next position to code (equivalent to 'ncode') */
+	int lasttarget;   /* 'label' of last 'jump label' */
+	int jpc;  /* list of pending jumps to 'pc' */
+	int nk;  /* number of elements in 'k' */
+	int np;  /* number of elements in 'p' */
+	int firstlocal;  /* index of first local var (in Dyndata array) */
+	short nlocvars;  /* number of elements in 'f->locvars' */
+	lu_byte nactvar;  /* number of active local variables */
+	lu_byte nups;  /* number of upvalues */
+	lu_byte free_reg;  /* first free register */
 
 
 //#define getcode(fs,e)	((fs)->f->code[(e)->u.info])

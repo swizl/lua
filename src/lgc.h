@@ -119,8 +119,8 @@
 		luaC_barrier_(L,obj2gco(p),obj2gco(o)); }
 
 #define luaC_upvalbarrier(L,uv) \
-  { if (iscollectable((uv)->v) && !upisopen(uv)) \
-         luaC_upvalbarrier_(L,uv); }
+	{ if (iscollectable((uv)->v) && !upisopen(uv)) \
+		luaC_upvalbarrier_(L,uv); }
 
 LUAI_FUNC void luaC_fix (lua_State *L, GCObject *o);
 LUAI_FUNC void luaC_freeallobjects (lua_State *L);

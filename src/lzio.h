@@ -18,7 +18,7 @@
 //typedef struct Zio ZIO;
 typedef class Zio ZIO;
 
-#define zgetc(z)  (((z)->n--)>0 ?  cast_uchar(*(z)->p++) : luaZ_fill(z))
+#define zgetc(z)  (((z)->n--)>0 ?  cast_uchar(*(z)->p++) : (z)->luaZ_fill())
 
 class Mbuffer {
 //typedef struct Mbuffer {
@@ -47,9 +47,8 @@ public:
 
 
 LUAI_FUNC char *luaZ_openspace (lua_State *L, Mbuffer *buff, size_t n);
-LUAI_FUNC void luaZ_init (lua_State *L, ZIO *z, lua_Reader reader,
-                                        void *data);
-LUAI_FUNC size_t luaZ_read (ZIO* z, void *b, size_t n);	/* read next n bytes */
+LUAI_FUNC void luaZ_init (lua_State *L, ZIO *z, lua_Reader reader, void *data);
+//LUAI_FUNC size_t luaZ_read (ZIO* z, void *b, size_t n);	/* read next n bytes */
 
 
 
@@ -62,9 +61,12 @@ public:
   lua_Reader reader;		/* reader function */
   void *data;			/* additional data */
   lua_State *L;			/* Lua state (for reader) */
+
+  size_t luaZ_read (/*ZIO* z,*/ void *b, size_t n);
+  int luaZ_fill (/*ZIO *z*/);
 };
 
 
-LUAI_FUNC int luaZ_fill (ZIO *z);
+//LUAI_FUNC int luaZ_fill (ZIO *z);
 
 #endif

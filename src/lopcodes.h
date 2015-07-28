@@ -11,21 +11,21 @@
 
 
 /*===========================================================================
-  We assume that instructions are unsigned numbers.
-  All instructions have an opcode in the first 6 bits.
-  Instructions can have the following fields:
-	'A' : 8 bits
-	'B' : 9 bits
-	'C' : 9 bits
-	'Ax' : 26 bits ('A', 'B', and 'C' together)
-	'Bx' : 18 bits ('B' and 'C' together)
-	'sBx' : signed Bx
+	We assume that instructions are unsigned numbers.
+	All instructions have an opcode in the first 6 bits.
+	Instructions can have the following fields:
+		'A' : 8 bits
+		'B' : 9 bits
+		'C' : 9 bits
+		'Ax' : 26 bits ('A', 'B', and 'C' together)
+		'Bx' : 18 bits ('B' and 'C' together)
+		'sBx' : signed Bx
 
-  A signed argument is represented in excess K; that is, the number
-  value is the unsigned value minus K. K is exactly the maximum value
-  for that argument (so that -max is represented by 0, and +max is
-  represented by 2*max), which is half the maximum for the corresponding
-  unsigned argument.
+	A signed argument is represented in excess K; that is, the number
+	value is the unsigned value minus K. K is exactly the maximum value
+	for that argument (so that -max is represented by 0, and +max is
+	represented by 2*max), which is half the maximum for the corresponding
+	unsigned argument.
 ===========================================================================*/
 
 
@@ -92,7 +92,7 @@ enum OpMode {iABC, iABx, iAsBx, iAx};  /* basic instruction format */
 
 #define getarg(i,pos,size)	(cast(int, ((i)>>pos) & MASK1(size,0)))
 #define setarg(i,v,pos,size)	((i) = (((i)&MASK0(size,pos)) | \
-                ((cast(Instruction, v)<<pos)&MASK1(size,pos))))
+		((cast(Instruction, v)<<pos)&MASK1(size,pos))))
 
 #define GETARG_A(i)	getarg(i, POS_A, SIZE_A)
 #define SETARG_A(i,v)	setarg(i, v, POS_A, SIZE_A)
@@ -237,25 +237,25 @@ OP_EXTRAARG/*	Ax	extra (larger) argument for previous opcode	*/
 
 
 /*===========================================================================
-  Notes:
-  (*) In OP_CALL, if (B == 0) then B = top. If (C == 0), then 'top' is
-  set to last_result+1, so next open instruction (OP_CALL, OP_RETURN,
-  OP_SETLIST) may use 'top'.
+	Notes:
+	(*) In OP_CALL, if (B == 0) then B = top. If (C == 0), then 'top' is
+	set to last_result+1, so next open instruction (OP_CALL, OP_RETURN,
+	OP_SETLIST) may use 'top'.
 
-  (*) In OP_VARARG, if (B == 0) then use actual number of varargs and
-  set top (like in OP_CALL with C == 0).
+	(*) In OP_VARARG, if (B == 0) then use actual number of varargs and
+	set top (like in OP_CALL with C == 0).
 
-  (*) In OP_RETURN, if (B == 0) then return up to 'top'.
+	(*) In OP_RETURN, if (B == 0) then return up to 'top'.
 
-  (*) In OP_SETLIST, if (B == 0) then B = 'top'; if (C == 0) then next
-  'instruction' is EXTRAARG(real C).
+	(*) In OP_SETLIST, if (B == 0) then B = 'top'; if (C == 0) then next
+	'instruction' is EXTRAARG(real C).
 
-  (*) In OP_LOADKX, the next 'instruction' is always EXTRAARG.
+	(*) In OP_LOADKX, the next 'instruction' is always EXTRAARG.
 
-  (*) For comparisons, A specifies what condition the test should accept
-  (true or false).
+	(*) For comparisons, A specifies what condition the test should accept
+	(true or false).
 
-  (*) All 'skips' (pc++) assume that next instruction is a jump.
+	(*) All 'skips' (pc++) assume that next instruction is a jump.
 
 ===========================================================================*/
 
@@ -270,10 +270,10 @@ OP_EXTRAARG/*	Ax	extra (larger) argument for previous opcode	*/
 */
 
 enum OpArgMask {
-  OpArgN,  /* argument is not used */
-  OpArgU,  /* argument is used */
-  OpArgR,  /* argument is a register or a jump offset */
-  OpArgK   /* argument is a constant or register/constant */
+	OpArgN,  /* argument is not used */
+	OpArgU,  /* argument is used */
+	OpArgR,  /* argument is a register or a jump offset */
+	OpArgK   /* argument is a constant or register/constant */
 };
 
 LUAI_DDEC const lu_byte luaP_opmodes[NUM_OPCODES];
@@ -293,16 +293,16 @@ LUAI_DDEC const char *const luaP_opnames[NUM_OPCODES+1];  /* opcode names */
 
 
 typedef enum BinOpr {
-  OPR_ADD, OPR_SUB, OPR_MUL, OPR_MOD, OPR_POW,
-  OPR_DIV,
-  OPR_IDIV,
-  OPR_BAND, OPR_BOR, OPR_BXOR,
-  OPR_SHL, OPR_SHR,
-  OPR_CONCAT,
-  OPR_EQ, OPR_LT, OPR_LE,
-  OPR_NE, OPR_GT, OPR_GE,
-  OPR_AND, OPR_OR,
-  OPR_NOBINOPR
+	OPR_ADD, OPR_SUB, OPR_MUL, OPR_MOD, OPR_POW,
+	OPR_DIV,
+	OPR_IDIV,
+	OPR_BAND, OPR_BOR, OPR_BXOR,
+	OPR_SHL, OPR_SHR,
+	OPR_CONCAT,
+	OPR_EQ, OPR_LT, OPR_LE,
+	OPR_NE, OPR_GT, OPR_GE,
+	OPR_AND, OPR_OR,
+	OPR_NOBINOPR
 } BinOpr;
 
 

@@ -12,10 +12,10 @@
 
 
 #define sizeCclosure(n)	(cast(int, sizeof(CClosure)) + \
-                         cast(int, sizeof(TValue)*((n)-1)))
+	cast(int, sizeof(TValue)*((n)-1)))
 
 #define sizeLclosure(n)	(cast(int, sizeof(LClosure)) + \
-                         cast(int, sizeof(TValue *)*((n)-1)))
+	cast(int, sizeof(TValue *)*((n)-1)))
 
 
 /* test whether thread is in 'twups' list */
@@ -35,15 +35,15 @@
 class UpVal {
 //struct UpVal {
 public:
-  TValue *v;  /* points to stack or to its own value */
-  lu_mem refcount;  /* reference counter */
-  union {
-    struct {  /* (when open) */
-      UpVal *next;  /* linked list */
-      int touched;  /* mark to avoid cycles with dead threads */
-    } open;
-    TValue value;  /* the value (when closed) */
-  } u;
+	TValue *v;  /* points to stack or to its own value */
+	lu_mem refcount;  /* reference counter */
+	union {
+		struct {  /* (when open) */
+			UpVal *next;  /* linked list */
+			int touched;  /* mark to avoid cycles with dead threads */
+		} open;
+		TValue value;  /* the value (when closed) */
+	} u;
 };
 
 #define upisopen(up)	((up)->v != &(up)->u.value)

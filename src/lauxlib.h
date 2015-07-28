@@ -22,8 +22,8 @@
 class luaL_Reg {
 //typedef struct luaL_Reg {
 public:
-  const char *name;
-  lua_CFunction func;
+	const char *name;
+	lua_CFunction func;
 } ;//luaL_Reg;
 
 
@@ -31,7 +31,7 @@ public:
 
 LUALIB_API void (luaL_checkversion_) (lua_State *L, lua_Number ver, size_t sz);
 #define luaL_checkversion(L)  \
-	  luaL_checkversion_(L, LUA_VERSION_NUM, LUAL_NUMSIZES)
+		luaL_checkversion_(L, LUA_VERSION_NUM, LUAL_NUMSIZES)
 
 LUALIB_API int (luaL_getmetafield) (lua_State *L, int obj, const char *e);
 LUALIB_API int (luaL_callmeta) (lua_State *L, int obj, const char *e);
@@ -43,8 +43,7 @@ LUALIB_API lua_Number (luaL_checknumber) (lua_State *L, int arg);
 LUALIB_API lua_Number (luaL_optnumber) (lua_State *L, int arg, lua_Number def);
 
 LUALIB_API lua_Integer (luaL_checkinteger) (lua_State *L, int arg);
-LUALIB_API lua_Integer (luaL_optinteger) (lua_State *L, int arg,
-                                          lua_Integer def);
+LUALIB_API lua_Integer (luaL_optinteger) (lua_State *L, int arg, lua_Integer def);
 
 LUALIB_API void (luaL_checkstack) (lua_State *L, int sz, const char *msg);
 LUALIB_API void (luaL_checktype) (lua_State *L, int arg, int t);
@@ -99,10 +98,10 @@ LUALIB_API void (luaL_requiref) (lua_State *L, const char *modname, lua_CFunctio
 
 
 #define luaL_newlibtable(L,l)	\
-  lua_createtable(L, 0, sizeof(l)/sizeof((l)[0]) - 1)
+	lua_createtable(L, 0, sizeof(l)/sizeof((l)[0]) - 1)
 
 #define luaL_newlib(L,l)  \
-  (luaL_checkversion(L), luaL_newlibtable(L,l), luaL_setfuncs(L,l,0))
+	(luaL_checkversion(L), luaL_newlibtable(L,l), luaL_setfuncs(L,l,0))
 
 #define luaL_argcheck(L, cond,arg,extramsg)	\
 		((void)((cond) || luaL_argerror(L, (arg), (extramsg))))
@@ -132,11 +131,11 @@ LUALIB_API void (luaL_requiref) (lua_State *L, const char *modname, lua_CFunctio
 class luaL_Buffer {
 //typedef struct luaL_Buffer {
 public:
-  char *b;  /* buffer address */
-  size_t size;  /* buffer size */
-  size_t n;  /* number of characters in buffer */
-  lua_State *L;
-  char initb[LUAL_BUFFERSIZE];  /* initial buffer */
+	char *b;  /* buffer address */
+	size_t size;  /* buffer size */
+	size_t n;  /* number of characters in buffer */
+	lua_State *L;
+	char initb[LUAL_BUFFERSIZE];  /* initial buffer */
 
 bool buffonstack ();
 void luaL_addsize (size_t s);
@@ -153,8 +152,8 @@ void luaL_addchar(char c);
 
 
 //#define luaL_addchar(B,c) \
-  ((void)((B)->n < (B)->size || luaL_prepbuffsize((B), 1)), \
-   ((B)->b[(B)->n++] = (c)))
+	((void)((B)->n < (B)->size || luaL_prepbuffsize((B), 1)), \
+	 ((B)->b[(B)->n++] = (c)))
 
 //#define luaL_addsize(B,s)	((B)->n += (s))
 
@@ -190,8 +189,8 @@ LUALIB_API char *(luaL_buffinitsize) (lua_State *L, luaL_Buffer *B, size_t sz);
 class luaL_Stream {
 //typedef struct luaL_Stream {
 public:
-  FILE *f;  /* stream (NULL for incompletely created streams) */
-  lua_CFunction closef;  /* to close stream (NULL for closed streams) */
+	FILE *f;  /* stream (NULL for incompletely created streams) */
+	lua_CFunction closef;  /* to close stream (NULL for closed streams) */
 } ;//luaL_Stream;
 
 /* }====================================================== */
@@ -201,10 +200,8 @@ public:
 /* compatibility with old module system */
 #if defined(LUA_COMPAT_MODULE)
 
-LUALIB_API void (luaL_pushmodule) (lua_State *L, const char *modname,
-                                   int sizehint);
-LUALIB_API void (luaL_openlib) (lua_State *L, const char *libname,
-                                const luaL_Reg *l, int nup);
+LUALIB_API void (luaL_pushmodule) (lua_State *L, const char *modname, int sizehint);
+LUALIB_API void (luaL_openlib) (lua_State *L, const char *libname, const luaL_Reg *l, int nup);
 
 #define luaL_register(L,n,l)	(luaL_openlib(L,(n),(l),0))
 
@@ -230,7 +227,7 @@ LUALIB_API void (luaL_openlib) (lua_State *L, const char *libname,
 /* print an error message */
 #if !defined(lua_writestringerror)
 #define lua_writestringerror(s,p) \
-        (fprintf(stderr, (s), (p)), fflush(stderr))
+	(fprintf(stderr, (s), (p)), fflush(stderr))
 #endif
 
 /* }================================================================== */
