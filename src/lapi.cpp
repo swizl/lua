@@ -159,8 +159,8 @@ LUA_API const lua_Number *lua_version (lua_State *L) {
 */
 LUA_API int lua_absindex (lua_State *L, int idx) {
 	return (idx > 0 || ispseudo(idx))
-				 ? idx
-				 : cast_int(L->top - L->ci->func) + idx;
+		? idx
+		: cast_int(L->top - L->ci->func) + idx;
 }
 
 
@@ -973,7 +973,7 @@ LUA_API int lua_load (lua_State *L, lua_Reader reader, void *data,
 	int status;
 	lua_lock(L);
 	if (!chunkname) chunkname = "?";
-	luaZ_init(L, &z, reader, data);
+	L->luaZ_init(&z, reader, data);
 	status = luaD_protectedparser(L, &z, chunkname, mode);
 	if (status == LUA_OK) {  /* no errors? */
 		LClosure *f = clLvalue(L->top - 1);  /* get newly created function */

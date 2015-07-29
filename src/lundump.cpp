@@ -118,7 +118,7 @@ public:
 	if (size == 0)
 		return NULL;
 	else {
-		char *s = luaZ_openspace(L, b, --size);
+		char *s = L->luaZ_openspace(b, --size);
 		LoadVector(s, size);
 		return luaS_newlstr(L, s, size);
 	}

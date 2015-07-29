@@ -567,8 +567,7 @@ l_noret luaG_concaterror (lua_State *L, const TValue *p1, const TValue *p2) {
 }
 
 
-l_noret luaG_opinterror (lua_State *L, const TValue *p1,
-												 const TValue *p2, const char *msg) {
+l_noret luaG_opinterror (lua_State *L, const TValue *p1, const TValue *p2, const char *msg) {
 	lua_Number temp;
 	if (!tonumber(p1, &temp))  /* first operand is wrong? */
 		p2 = p1;  /* now second is wrong */

@@ -178,6 +178,10 @@ public:
 	unsigned short nCcalls;  /* number of nested C calls */
 	lu_byte hookmask;
 	lu_byte allowhook;
+
+
+	void luaZ_init(/*lua_State *L,*/ ZIO *z, lua_Reader reader, void *data);
+	char *luaZ_openspace(/*lua_State *L,*/ Mbuffer *buff, size_t n);
 };
 
 

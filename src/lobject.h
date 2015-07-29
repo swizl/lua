@@ -320,6 +320,8 @@ public:
 		size_t lnglen;  /* length for long strings */
 		/*struct*/ TString *hnext;  /* linked list for hash table */
 	} u;
+
+	int luaS_eqlngstr (/*TString *a,*/ TString *b);
 } ;//TString;
 
 

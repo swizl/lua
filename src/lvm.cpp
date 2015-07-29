@@ -410,7 +410,7 @@ int luaV_equalobj (lua_State *L, const TValue *t1, const TValue *t2) {
 		case LUA_TLIGHTUSERDATA: return pvalue(t1) == pvalue(t2);
 		case LUA_TLCF: return fvalue(t1) == fvalue(t2);
 		case LUA_TSHRSTR: return eqshrstr(tsvalue(t1), tsvalue(t2));
-		case LUA_TLNGSTR: return luaS_eqlngstr(tsvalue(t1), tsvalue(t2));
+		case LUA_TLNGSTR: return tsvalue(t1)->luaS_eqlngstr(tsvalue(t2));
 		case LUA_TUSERDATA: {
 			if (uvalue(t1) == uvalue(t2)) return 1;
 			else if (L == NULL) return 0;
@@ -471,7 +471,7 @@ void luaV_concat (lua_State *L, int total) {
 					luaG_runerror(L, "string length overflow");
 				tl += l;
 			}
-			buffer = luaZ_openspace(L, &G(L)->buff, tl);
+			buffer = L->luaZ_openspace(&G(L)->buff, tl);
 			tl = 0;
 			n = i;
 			do {  /* copy all strings to buffer */

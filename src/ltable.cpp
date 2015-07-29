@@ -337,8 +337,7 @@ static void setnodevector (lua_State *L, Table *t, unsigned int size) {
 }
 
 
-void luaH_resize (lua_State *L, Table *t, unsigned int nasize,
-																					unsigned int nhsize) {
+void luaH_resize (lua_State *L, Table *t, unsigned int nasize, unsigned int nhsize) {
 	unsigned int i;
 	int j;
 	unsigned int oldasize = t->sizearray;

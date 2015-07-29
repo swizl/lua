@@ -37,12 +37,12 @@
 /*
 ** equality for long strings
 */
-int luaS_eqlngstr (TString *a, TString *b) {
-	size_t len = a->u.lnglen;
-	lua_assert(a->tt == LUA_TLNGSTR && b->tt == LUA_TLNGSTR);
-	return (a == b) ||  /* same instance or... */
+int TString::luaS_eqlngstr (/*TString *a,*/ TString *b) {
+	size_t len = u.lnglen;
+	lua_assert(tt == LUA_TLNGSTR && b->tt == LUA_TLNGSTR);
+	return (this == b) ||  /* same instance or... */
 		((len == b->u.lnglen) &&  /* equal length and ... */
-		 (memcmp(getstr(a), getstr(b), len) == 0));  /* equal contents */
+		 (memcmp(getstr(this), getstr(b), len) == 0));  /* equal contents */
 }
 
 

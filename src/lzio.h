@@ -46,8 +46,8 @@ public:
 #define luaZ_freebuffer(L, buff)	luaZ_resizebuffer(L, buff, 0)
 
 
-LUAI_FUNC char *luaZ_openspace (lua_State *L, Mbuffer *buff, size_t n);
-LUAI_FUNC void luaZ_init (lua_State *L, ZIO *z, lua_Reader reader, void *data);
+//LUAI_FUNC char *luaZ_openspace (lua_State *L, Mbuffer *buff, size_t n);
+//LUAI_FUNC void luaZ_init (lua_State *L, ZIO *z, lua_Reader reader, void *data);
 //LUAI_FUNC size_t luaZ_read (ZIO* z, void *b, size_t n);	/* read next n bytes */
 
 
