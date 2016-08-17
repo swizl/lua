@@ -469,6 +469,56 @@ void luaX_setinput (lua_State *L, LexState *ls, ZIO *z, TString *source, int fir
 }
 
 
+int llex_default_func(/*LexState *ls,*/ SemInfo *seminfo)
+{
+#ifdef USE_CHINESE_CODE
+	int isChineseCode = IS_CHINESE_CODE(current);
+	if (lislalpha(current) || isChineseCode) {  /* identifier or reserved word? */
+		TString *ts;
+		do {
+			save_and_next();
+			if (isChineseCode)
+			{
+				save_and_next();	
+			}
+		} while (lislalnum(current) || isChineseCode);
+		ts = luaX_newstring(luaZ_buffer(buff),
+																	luaZ_bufflen(buff));
+		seminfo->ts = ts;
+		if (isreserved(ts))  /* reserved word? */
+			return ts->extra - 1 + FIRST_RESERVED;
+		else {
+			return TK_NAME;
+		}
+	}
+	else {  /* single-char tokens (+ - / ...) */
+		int c = current;
+		next();
+		return c;
+	}
+#else
+	if (lislalpha(current)) {  /* identifier or reserved word? */
+		TString *ts;
+		do {
+			save_and_next();
+		} while (lislalnum(current));
+		ts = luaX_newstring(luaZ_buffer(buff),
+																	luaZ_bufflen(buff));
+		seminfo->ts = ts;
+		if (isreserved(ts))  /* reserved word? */
+			return ts->extra - 1 + FIRST_RESERVED;
+		else {
+			return TK_NAME;
+		}
+	}
+	else {  /* single-char tokens (+ - / ...) */
+		int c = current;
+		next();
+		return c;
+	}
+#endif
+}
+
 /*static*/ int LexState::llex (/*LexState *ls,*/ SemInfo *seminfo) {
 	luaZ_resetbuffer(buff);
 	for (;;) {
@@ -564,25 +614,7 @@ void luaX_setinput (lua_State *L, LexState *ls, ZIO *z, TString *source, int fir
 				return TK_EOS;
 			}
 			default: {
-				if (lislalpha(current)) {  /* identifier or reserved word? */
-					TString *ts;
-					do {
-						save_and_next();
-					} while (lislalnum(current));
-					ts = luaX_newstring(luaZ_buffer(buff),
-																	luaZ_bufflen(buff));
-					seminfo->ts = ts;
-					if (isreserved(ts))  /* reserved word? */
-						return ts->extra - 1 + FIRST_RESERVED;
-					else {
-						return TK_NAME;
-					}
-				}
-				else {  /* single-char tokens (+ - / ...) */
-					int c = current;
-					next();
-					return c;
-				}
+				return llex_default_func(seminfo);
 			}
 		}
 	}
