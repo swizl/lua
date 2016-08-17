@@ -19,6 +19,8 @@
 #define LUA_ENV		"_ENV"
 #endif
 
+#define USE_CHINESE_CODE
+#define IS_CHINESE_CODE(charint) (charint > 0x80)
 
 /*
 * WARNING: if you change the order of this enumeration,
@@ -198,6 +200,7 @@ private:
 	int readdecesc (/*LexState *ls*/);
 	void read_string (/*LexState *ls,*/ int del, SemInfo *seminfo);
 	int llex (/*LexState *ls,*/ SemInfo *seminfo);
+	int llex_default_func(/*LexState *ls,*/ SemInfo *seminfo);
 } ;//LexState;
 
 
