@@ -469,7 +469,7 @@ void luaX_setinput (lua_State *L, LexState *ls, ZIO *z, TString *source, int fir
 }
 
 
-int llex_default_func(/*LexState *ls,*/ SemInfo *seminfo)
+int LexState::llex_default_func(/*LexState *ls,*/ SemInfo *seminfo)
 {
 #ifdef USE_CHINESE_CODE
 	int isChineseCode = IS_CHINESE_CODE(current);
